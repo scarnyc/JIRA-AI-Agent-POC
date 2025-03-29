@@ -36,29 +36,28 @@
                     <div class="card-body">
                         <form id="issue-form">
                             <div class="mb-3">
-                                <label for="summaries" class="form-label">Issue Summaries (One per line):</label>
+                                <label for="summaries" class="form-label">Issues (One per line, comma-separated in format "Summary, Description"):</label>
                                 <textarea 
                                     id="summaries" 
                                     name="summaries" 
                                     class="form-control" 
-                                    rows="6" 
-                                    placeholder="- Fix login bug
-* Update documentation
-1. Implement new feature"
+                                    rows="8" 
+                                    placeholder="Create Email Account for Blog and Connect to Contact Us, AC: Email account should be connected to Contact Us page
+Create Youtube Video for Replit blog post, AC: Youtube account should be connected to Email account
+Upscale Hero Images for Blog, AC: Hero Images should be High Res"
                                     required
                                 ></textarea>
-                                <div class="form-text">Enter one summary per line. List markers (-, *, 1., etc.) will be automatically removed.</div>
+                                <div class="form-text">Enter one issue per line in format "Summary, Description" (description is optional). List markers (1., etc.) will be automatically removed.</div>
                             </div>
                             
-                            <div class="mb-4">
-                                <label for="description" class="form-label">Description (Optional, applies to ALL issues):</label>
-                                <textarea 
-                                    id="description" 
-                                    name="description" 
-                                    class="form-control" 
-                                    rows="4" 
-                                    placeholder="Enter a description that will be used for all created issues..."
-                                ></textarea>
+                            <div class="mb-3">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Format:</strong> "Summary, Description" (one per line)<br>
+                                    <strong>Example:</strong><br>
+                                    1. Create Email Account for Blog, AC: Email account should be connected to Contact Us page<br>
+                                    2. Create Youtube Video for Replit blog post, AC: Youtube account should be connected to Email
+                                </div>
                             </div>
                             
                             <div class="d-grid">

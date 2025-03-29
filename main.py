@@ -114,16 +114,17 @@ def create_jira_issue_langgraph(summary, description=None):
         return error_msg
 
 # Functions for batch processing (from jira_batch_creator.py)
-def parse_summaries(summaries_text):
+def parse_summaries_and_descriptions(summaries_text):
     """
-    Parse the summaries text input, handling different list formats and empty lines.
-    Returns a list of cleaned summaries.
+    Parse the input text which contains comma-separated summaries and descriptions.
+    Format: "Summary, Description" (one per line)
+    Returns a list of dictionaries with 'summary' and 'description' keys.
     """
     # Split the text by lines
     lines = summaries_text.split('\n')
     
-    # Clean up summaries
-    cleaned_summaries = []
+    # Clean up and parse each line
+    parsed_items = []
     for line in lines:
         # Remove leading/trailing whitespace
         line = line.strip()
@@ -132,27 +133,45 @@ def parse_summaries(summaries_text):
         if not line:
             continue
         
-        # Remove common list markers (*, -, 1., etc.)
+        # Remove common list markers (1., etc.) at the beginning
         cleaned_line = re.sub(r'^\s*(?:\*|\-|\d+\.|\•|\+)\s*', '', line).strip()
         
         # Skip if line is empty after cleaning
-        if cleaned_line:
-            cleaned_summaries.append(cleaned_line)
+        if not cleaned_line:
+            continue
+        
+        # Split by first comma to separate summary and description
+        parts = cleaned_line.split(',', 1)
+        summary = parts[0].strip()
+        
+        # If there's a description part, use it; otherwise, leave it empty
+        description = parts[1].strip() if len(parts) > 1 else ""
+        
+        # Add to the list if we have a valid summary
+        if summary:
+            parsed_items.append({
+                'summary': summary,
+                'description': description
+            })
     
-    return cleaned_summaries
+    return parsed_items
 
-def process_summaries(summaries_text, description=""):
+def process_summaries(summaries_text, global_description=""):
     """
-    Process each summary and create a Jira issue for it.
-    Returns a list of results with status and details for each summary.
+    Process each summary and its description and create a Jira issue for it.
+    Returns a list of results with status and details for each issue.
     """
-    # Parse summaries from the input text
-    summaries = parse_summaries(summaries_text)
+    # Parse summaries and descriptions from the input text using our new parsing function
+    issues = parse_summaries_and_descriptions(summaries_text)
     
-    # Process each summary
+    # Process each issue
     results = []
-    for i, summary in enumerate(summaries):
+    for i, issue in enumerate(issues):
         try:
+            summary = issue['summary']
+            # Use individual description if provided, otherwise use global description
+            description = issue['description'] if issue['description'] else global_description
+            
             # Call the function to create the issue
             response = create_jira_issue_langgraph(summary, description)
             
@@ -180,7 +199,7 @@ def process_summaries(summaries_text, description=""):
         except Exception as e:
             # Exception occurred during issue creation
             results.append({
-                "summary": summary,
+                "summary": issue['summary'],
                 "success": False,
                 "message": f"ERROR: {str(e)}",
                 "details": str(e)
@@ -196,14 +215,13 @@ def index():
 
 @app.route('/create_issues', methods=['POST'])
 def create_issues():
-    """Process submitted summaries and create Jira issues."""
+    """Process submitted issues with summaries and descriptions and create Jira issues."""
     try:
         # Get form data
         summaries_text = request.form.get('summaries', '')
-        description = request.form.get('description', '')
         
-        # Process summaries and create issues
-        results = process_summaries(summaries_text, description)
+        # Process summaries and create issues (passing empty global description)
+        results = process_summaries(summaries_text)
         
         return jsonify({"success": True, "results": results})
     except Exception as e:

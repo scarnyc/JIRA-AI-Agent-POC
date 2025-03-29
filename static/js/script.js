@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const resultItem = document.createElement('div');
                 resultItem.className = 'mb-2 p-2 border-bottom';
                 
-                // Format the summary with original format markers
-                const originalSummary = summariesText.split('\n')
+                // Get original line that includes both summary and description
+                const originalLine = summariesText.split('\n')
                     .filter(line => line.trim() !== '')
                     [index] || result.summary;
                 
@@ -73,8 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<i class="fas fa-check-circle me-2"></i>' : 
                     '<i class="fas fa-exclamation-circle me-2"></i>';
                 
+                // Extract summary and description parts from the original line
+                const parts = originalLine.split(/,(.+)/).map(part => part.trim());
+                const displaySummary = parts[0];
+                const displayDescription = parts.length > 1 ? parts[1] : '';
+                
                 resultItem.innerHTML = `
-                    <div><strong>${originalSummary}</strong></div>
+                    <div><strong>${displaySummary}</strong></div>
+                    ${displayDescription ? `<div class="small text-muted mb-2">${displayDescription}</div>` : ''}
                     <div class="${statusClass}">
                         ${statusIcon}${result.message}
                     </div>
