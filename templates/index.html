@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira Batch Issue Creator</title>
+    <!-- Use Replit's Bootstrap theme -->
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #results-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .success-message {
+            color: var(--bs-success);
+        }
+        
+        .error-message {
+            color: var(--bs-danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">Jira Batch Issue Creator</h1>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Create Multiple Jira Issues</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="issue-form">
+                            <div class="mb-3">
+                                <label for="summaries" class="form-label">Issue Summaries (One per line):</label>
+                                <textarea 
+                                    id="summaries" 
+                                    name="summaries" 
+                                    class="form-control" 
+                                    rows="6" 
+                                    placeholder="- Fix login bug
+* Update documentation
+1. Implement new feature"
+                                    required
+                                ></textarea>
+                                <div class="form-text">Enter one summary per line. List markers (-, *, 1., etc.) will be automatically removed.</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="description" class="form-label">Description (Optional, applies to ALL issues):</label>
+                                <textarea 
+                                    id="description" 
+                                    name="description" 
+                                    class="form-control" 
+                                    rows="4" 
+                                    placeholder="Enter a description that will be used for all created issues..."
+                                ></textarea>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" id="create-button" class="btn btn-primary">
+                                    <i class="fas fa-plus-circle me-2"></i>Create Jira Issues
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card" id="results-card" style="display: none;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="card-title h5 mb-0">Results / Status</h2>
+                        <div id="progress-indicator" style="display: none;">
+                            Processing <span id="current-count">0</span> of <span id="total-count">0</span>...
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="results-container" class="mb-3">
+                            <!-- Results will be displayed here -->
+                        </div>
+                        <div id="completion-message" class="alert alert-success" style="display: none;">
+                            <i class="fas fa-check-circle me-2"></i>Batch processing complete.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Script -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
