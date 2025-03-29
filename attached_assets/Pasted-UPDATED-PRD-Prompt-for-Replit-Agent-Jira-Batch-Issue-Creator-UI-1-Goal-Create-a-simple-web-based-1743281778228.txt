@@ -1,0 +1,77 @@
+UPDATED PRD Prompt for Replit Agent: Jira Batch Issue Creator UI
+
+1. Goal:
+Create a simple web-based User Interface (UI) within this Replit project that allows a user to create multiple Jira issues in a batch by providing a list of issue summaries. The UI will use the functionality already defined in the main.py script to create each issue individually.
+2. Background:
+The main.py script contains the necessary logic (create_jira_issue_langgraph function) to interact with the Jira API via Langchain and LangGraph to create a single issue, authenticated using environment variables. This UI should serve as a user-friendly frontend that takes a list of summaries and iteratively calls the backend function for each summary.
+3. Functional Requirements:
+Input Fields:
+Provide a Text Area labeled "Issue Summaries (One per line)". Users will input their desired issue summaries here, typically as a bulleted or numbered list (e.g., - Fix bug X, * Implement feature Y, 1. Update documentation).
+Provide a Text Area input field labeled "Description (Optional, applies to ALL issues)". Any description entered here will be used for every issue created in the batch.
+Action Button:
+Include a button labeled "Create Jira Issues" (or similar).
+Backend Interaction:
+When the "Create Jira Issues" button is clicked, the UI backend should:
+Retrieve the multi-line text from the "Issue Summaries" text area.
+Retrieve the text from the optional "Description" field.
+Parse the Summaries: Split the input text into individual lines. For each non-empty line, treat it as a potential issue summary. Clean up each line by removing leading/trailing whitespace and any common list markers (like *, -, 1., etc.). Ignore empty lines.
+Iterate and Create: Loop through the cleaned list of summaries. For each summary:
+Call the create_jira_issue_langgraph(summary, description) function imported from the existing main.py script, passing the current summary and the (potentially empty) shared description.
+Store or immediately display the result (success or error) for this specific summary.
+Crucially: The UI code must use the main.py script as a module and call its create_jira_issue_langgraph function repeatedly for each summary. Do not reimplement the Jira interaction logic within the UI's backend code.
+Output Display:
+Provide an area (e.g., a text box, a dynamically updated list) to display the results of the batch operation.
+For each summary processed, clearly show:
+The input summary line.
+The outcome (e.g., "SUCCESS: Issue [KEY-123] created" or "ERROR: [Specific error message from main.py]").
+Maintain the order corresponding to the input list.
+User Feedback:
+Provide visual feedback while the batch process is running (e.g., disable the button, show a progress indicator like "Processing issue 2 of 10...", display results incrementally if possible).
+Show a clear "Batch processing complete" message when finished.
+4. Non-Functional Requirements:
+Simplicity: The UI should remain clean and straightforward.
+Error Handling: Display errors returned from main.py clearly per issue in the output area. If an error occurs for one issue, the process should continue attempting to create the remaining issues in the list.
+Technology: Use a simple Python web framework suitable for Replit, such as Flask or Streamlit. Choose one and implement the UI using it.
+Dependencies: Ensure any new libraries required for the UI framework (Flask, Streamlit, etc.) are added to the project's dependencies (e.g., pyproject.toml or requirements.txt).
+Environment Variables / Secrets:
+The UI must not ask the user for API keys, tokens, or instance URLs.
+It relies entirely on the environment variables (GEM_API_KEY, JIRA_USERNAME, JIRA_API_TOKEN, JIRA_INSTANCE_URL, PROJECT_KEY, JIRA_CLOUD) already configured for main.py. Remind the user (via comments in the code or a note in the UI description if possible) that these must be set correctly in Replit Secrets for the application to function.
+5. UI Structure (Conceptual):
++------------------------------------------------------+
+| Jira Batch Issue Creator                             |
++------------------------------------------------------+
+|                                                      |
+| Issue Summaries (One per line):                      |
+| [ Text Area for list input                         ] |
+| [ e.g.,                                            ] |
+| [ - Summary 1                                      ] |
+| [ * Summary 2                                      ] |
+| [ 3. Summary 3                                     ] |
+|                                                      |
+| Description (Optional, applies to ALL issues):       |
+| [ Text Area for shared description                 ] |
+|                                                      |
+|                     [ Create Jira Issues Button ]    |
+|                                                      |
++------------------------------------------------------+
+| Results / Status:                                    |
+| +--------------------------------------------------+ |
+| | (Batch results displayed here, line by line)     | |
+| | e.g.,                                            | |
+| | - Summary 1: SUCCESS (Issue ABC-101)             | |
+| | * Summary 2: ERROR (API timeout)                 | |
+| | 3. Summary 3: SUCCESS (Issue ABC-102)            | |
+| | Batch processing complete.                       | |
+| +--------------------------------------------------+ |
++------------------------------------------------------+
+
+6. Implementation Notes:
+Create or modify the UI application logic file (e.g., app.py).
+Implement the parsing logic for the summaries list carefully (handle different list formats, empty lines).
+Implement the loop that calls create_jira_issue_langgraph from main.py for each valid summary.
+Structure the output display to clearly show the status for each attempted creation.
+Ensure main.py remains the source of the core Jira creation logic.
+Update the Replit run command if necessary.
+
+This updated prompt clearly outlines the batch processing requirement, how input should be handled, how the existing backend function should be used iteratively, and how results should be displayed.
+
