@@ -1,5 +1,5 @@
 
-# Jira Batch Issue Creator
+# JIRA AI Agent
 
 A web-based tool that allows users to create multiple Jira issues in batch. Built with Flask and integrated with the Jira API using LangGraph ReAct agent.
 
