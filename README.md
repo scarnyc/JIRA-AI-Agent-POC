@@ -3,6 +3,10 @@
 
 A web-based tool that allows users to create multiple Jira issues in batch. Built with Flask and integrated with the Jira API using LangGraph ReAct agent.
 
+## PRD
+
+https://docs.google.com/document/d/1C642V9Ut3UddNH2gt0VZPZGZ5YpnUk5GlxV9QxoGcX8/edit?pli=1&tab=t.4ybsqm6bvynq
+
 ## Features
 
 - Create multiple Jira issues at once
