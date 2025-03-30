@@ -1,5 +1,5 @@
 
-# JIRA AI Agent
+# JIRA AI Agent POC
 
 A web-based tool that allows users to create multiple Jira issues in batch. Built with Flask and integrated with the Jira API using LangGraph ReAct agent.
 
