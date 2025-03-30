@@ -99,10 +99,16 @@ def create_jira_issue_langgraph(summary, description=None):
         logger.info(f"Creating Jira issue with summary: {summary}")
         logger.info(f"Description: {description}")
         
-        prompt = f"Make a new issue in project {PROJECT_KEY} with summary '{summary}'"
-        if description:
-            prompt += f" and description '{description}'"
-
+        # Create a properly formatted JSON structure
+        issue_data = {
+            "summary": summary,
+            "description": description if description else "",
+            "project": {"key": PROJECT_KEY},
+            "issuetype": {"name": "Task"}
+        }
+        
+        prompt = f"Create a Jira issue with this exact data: {issue_data}"
+        
         # Invoke the agent using the structure expected by create_react_agent
         response = agent_executor.invoke({"messages": [HumanMessage(content=prompt)]})
 
