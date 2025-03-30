@@ -88,16 +88,14 @@ def create_jira_issue_langgraph(summary, description=None):
     if missing_vars:
         error_msg = f"ERROR: Jira integration not available. Missing environment variables: {', '.join(missing_vars)}"
         logger.error(error_msg)
-        return error_msg
+        raise Exception(error_msg)
     
     if not agent_executor:
         error_msg = "ERROR: Jira integration not properly initialized"
         logger.error(error_msg)
-        return error_msg
+        raise Exception(error_msg)
     
     try:
-        # For debugging - temporarily simulate a successful response without calling the API
-        # This will help us test the UI while bypassing API issues
         logger.info(f"Creating Jira issue with summary: {summary}")
         logger.info(f"Description: {description}")
         
@@ -116,22 +114,22 @@ def create_jira_issue_langgraph(summary, description=None):
             logger.debug(f"Full agent response: {response}")
             logger.debug(f"Final response content: {final_response}")
             
-            # Check if the response indicates success
-            if "created" in final_response.lower():
+            # Check if the response indicates success and contains an issue key
+            if "created" in final_response.lower() and "ABD-" in final_response:
                 return final_response
             else:
-                error_msg = f"Agent response did not indicate successful issue creation: {final_response}"
+                error_msg = f"Issue creation failed: {final_response}"
                 logger.error(error_msg)
-                return error_msg
+                raise Exception(error_msg)
         else:
             error_msg = "Invalid response format from agent"
             logger.error(error_msg)
-            return error_msg
+            raise Exception(error_msg)
 
     except Exception as e:
-        error_msg = f"Error creating Jira issue with LangGraph agent: {str(e)}"
+        error_msg = f"Error creating Jira issue: {str(e)}"
         logger.error(error_msg)
-        return error_msg
+        raise Exception(error_msg)
 
 # Functions for batch processing (from jira_batch_creator.py)
 def parse_summaries_and_descriptions(summaries_text):
