@@ -27,9 +27,13 @@ ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123")  # Change this in 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if request.form.get('password') == ADMIN_PASSWORD:
+        submitted_password = request.form.get('password')
+        logger.debug(f"Login attempt - Submitted password length: {len(submitted_password) if submitted_password else 0}")
+        logger.debug(f"Expected password length: {len(ADMIN_PASSWORD) if ADMIN_PASSWORD else 0}")
+        if submitted_password == ADMIN_PASSWORD:
             session['logged_in'] = True
             return redirect(url_for('index'))
+        logger.warning("Invalid password attempt")
         return render_template('login.html', error="Invalid password")
     return render_template('login.html')
 
