@@ -36,4 +36,32 @@ The following environment variables are required:
 
 The application runs on port 5000. Click the Run button to start the server.
 
+## Application Logic
+
+1. **Web Interface** (`templates/index.html`):
+   - Provides a textarea where users enter multiple JIRA issues
+   - Each line follows format: "Summary, Description"
+   - Shows real-time feedback as issues are created
+
+2. **Main Application Flow** (`main.py` and `app.py`):
+   - Flask server runs on port 5000
+   - Two main routes:
+     - `/`: Shows the input form
+     - `/create_issues`: Handles POST requests to create issues
+
+3. **Issue Processing** (`jira_batch_creator.py`):
+   - `parse_summaries()`: Splits input text into individual issues
+   - `process_summaries()`: For each issue:
+     1. Parses summary and description
+     2. Calls `create_jira_issue_langgraph()` to create the issue
+     3. Returns success/error status for each issue
+
+4. **JIRA Integration** (`main.py`):
+   - Uses LangGraph ReAct agent to interact with JIRA
+   - `create_jira_issue_langgraph()`:
+     - Takes summary and description
+     - Formats proper JSON for JIRA API
+     - Creates issue via agent
+     - Returns response/error
+
 
