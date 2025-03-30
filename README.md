@@ -38,7 +38,7 @@ The following environment variables are required:
 
 ## Running the Application
 
-The application runs on port 5000. Click the Run button to start the server.
+The application runs on https://jira-ai-agent-poc-willscardino.replit.app/
 
 ## Application Logic
 
