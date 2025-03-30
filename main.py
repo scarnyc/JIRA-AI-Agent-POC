@@ -52,7 +52,7 @@ if not missing_vars:
     try:
         # Initialize LLM with timeout and optimized settings
         llm = ChatGoogleGenerativeAI(
-            model="gemini-pro",
+            model="gemini-2.0-flash-lite",
             google_api_key=GEM_API_KEY,
             temperature=0.1,
             timeout=30,
