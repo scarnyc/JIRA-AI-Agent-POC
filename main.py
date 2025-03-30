@@ -109,8 +109,24 @@ def create_jira_issue_langgraph(summary, description=None):
         response = agent_executor.invoke({"messages": [HumanMessage(content=prompt)]})
 
         # Extract the final response from the agent's output messages
-        final_response = response['messages'][-1].content
-        return final_response
+        if response and 'messages' in response and response['messages']:
+            final_response = response['messages'][-1].content
+            
+            # Log the full response for debugging
+            logger.debug(f"Full agent response: {response}")
+            logger.debug(f"Final response content: {final_response}")
+            
+            # Check if the response indicates success
+            if "created" in final_response.lower():
+                return final_response
+            else:
+                error_msg = f"Agent response did not indicate successful issue creation: {final_response}"
+                logger.error(error_msg)
+                return error_msg
+        else:
+            error_msg = "Invalid response format from agent"
+            logger.error(error_msg)
+            return error_msg
 
     except Exception as e:
         error_msg = f"Error creating Jira issue with LangGraph agent: {str(e)}"
