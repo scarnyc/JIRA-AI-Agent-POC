@@ -100,13 +100,6 @@ def create_jira_issue_langgraph(summary, description=None):
         logger.info(f"Creating Jira issue with summary: {summary}")
         logger.info(f"Description: {description}")
         
-        # Simulate a successful response
-        # In a production environment, you would remove this and use the actual API
-        simulated_response = f"Successfully created issue {PROJECT_KEY}-123 with summary '{summary}'"
-        return simulated_response
-        
-        # The commented code below would be used in production:
-        """
         prompt = f"Make a new issue in project {PROJECT_KEY} with summary '{summary}'"
         if description:
             prompt += f" and description '{description}'"
@@ -117,7 +110,6 @@ def create_jira_issue_langgraph(summary, description=None):
         # Extract the final response from the agent's output messages
         final_response = response['messages'][-1].content
         return final_response
-        """
 
     except Exception as e:
         error_msg = f"Error creating Jira issue with LangGraph agent: {str(e)}"
