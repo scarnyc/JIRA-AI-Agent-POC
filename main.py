@@ -50,13 +50,14 @@ agent_executor = None
 # Only initialize if all required env vars are present
 if not missing_vars:
     try:
-        # Initialize LLM
+        # Initialize LLM with timeout and optimized settings
         llm = ChatGoogleGenerativeAI(
-            model="gemini-2.5-pro-exp-03-25", # Consider if a different Gemini model is needed
+            model="gemini-pro",
             google_api_key=GEM_API_KEY,
             temperature=0.1,
-            # Add convert_system_message_to_human=True if needed for compatibility
-            # convert_system_message_to_human=True
+            timeout=30,
+            max_retries=2,
+            max_output_tokens=1024
         )
 
         # Initialize Jira API wrapper with proper configuration
