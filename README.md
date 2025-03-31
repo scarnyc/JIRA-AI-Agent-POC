@@ -1,4 +1,3 @@
-
 # JIRA AI Agent POC
 
 A web-based tool that allows users to create multiple Jira issues in batch. Built with Flask and integrated with the Jira API using LangGraph ReAct agent.
@@ -68,4 +67,6 @@ The application runs on https://jira-ai-agent-poc-willscardino.replit.app/
      - Creates issue via agent
      - Returns response/error
 
+## License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
