@@ -2,9 +2,11 @@
 
 A web-based tool that allows users to create multiple Jira issues in batch. Built with Flask and integrated with the Jira API using LangGraph ReAct agent.
 
-## PRD
+## Demo
 
-https://docs.google.com/document/d/1C642V9Ut3UddNH2gt0VZPZGZ5YpnUk5GlxV9QxoGcX8/edit?pli=1&tab=t.4ybsqm6bvynq
+Click on the link to watch the demo:
+
+https://drive.google.com/file/d/15FwEoQl3gkTTJe78q1ThP9oXb6mxdzPK/view?usp=drive_link
 
 ## Features
 
@@ -66,6 +68,10 @@ The application runs on https://jira-ai-agent-poc-willscardino.replit.app/
      - Formats proper JSON for JIRA API
      - Creates issue via agent
      - Returns response/error
+
+## PRD
+
+https://docs.google.com/document/d/1C642V9Ut3UddNH2gt0VZPZGZ5YpnUk5GlxV9QxoGcX8/edit?pli=1&tab=t.4ybsqm6bvynq
 
 ## License
 
